@@ -1,4 +1,5 @@
 from random import choice
+import sys
 
 
 def open_and_read_file(file_path):
@@ -53,10 +54,19 @@ def make_text(chains):
 
     # text = ""
 
+    # make a list of punctations that we want to stop our file at.
+
     first_key = choice(chains.keys())
     # first_value = choice(chains[first_key])
+    while first_key[0][0].islower():
+        first_key = choice(chains.keys())
+    # while the first character of the first item from our tuple key is lowercase, then
+    # select another first key
+
 
     words_to_add_to_string = [first_key[0], first_key[1]]
+
+
 
     while first_key in chains:
         # pull the value of the first tuple that we started with, from the list of values that it gives, and then set that value to a variable
@@ -66,13 +76,17 @@ def make_text(chains):
         # set our first_key to first_key[1], and the initial variable that we started off with. 
         first_key = (first_key[1], new_word)
 
+        if first_key[1][-1] in ['.', '!', '?']:
+            break
+        # if we have a puncuation, we stop. If not, we continue with the loop.
+
     # Once out of the while loop, we will join the values in the words_to_add_to_string to the text (which will print)
     whole_string = " ".join(words_to_add_to_string)
 
     return whole_string
 
 
-input_path = "green-eggs.txt"
+input_path = sys.argv[1]
 
 # Open the file and turn it into one long string
 input_text = open_and_read_file(input_path)
