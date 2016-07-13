@@ -51,45 +51,25 @@ def make_chains(text_string):
 def make_text(chains):
     """Takes dictionary of markov chains; returns random text."""
 
-    text = ""
+    # text = ""
 
     first_key = choice(chains.keys())
-    first_value = choice(chains[first_key])
-    first_word, second_word = first_key
-    text = "{} {} {} {}".format(text, first_word, second_word, first_value)
-    new_key = chains.get((second_word, first_value), 0)
+    # first_value = choice(chains[first_key])
 
-    # we need to make 'you' the first part of the tuple key
-    # we need to make 'could' the second part of the tuple key  
+    words_to_add_to_string = [first_key[0], first_key[1]]
 
-    # first_key = ('would', 'you')
-    # first_word = 'would'
-    # second_work = 'you'
-    # first_value = 'could' randomly selected
-    # new_key = ('you', 'could')
+    while first_key in chains:
+        # pull the value of the first tuple that we started with, from the list of values that it gives, and then set that value to a variable
+        new_word = choice(chains[first_key])
+        # append that random value to our words_to_add_to_string list
+        words_to_add_to_string.append(new_word)
+        # set our first_key to first_key[1], and the initial variable that we started off with. 
+        first_key = (first_key[1], new_word)
 
+    # Once out of the while loop, we will join the values in the words_to_add_to_string to the text (which will print)
+    whole_string = " ".join(words_to_add_to_string)
 
-    while new_key != 0:
-        new_value = choice(chains[new_key])
-        # new_value = 'I'
-        text = "{} {}".format(text, new_value)
-        # "would you could I"
-        new_value = chains.get((first_value, new_value), 0)
-        # new_value = chains.get(('you', 'could'), 0)
-        # we need ('could', 'I') instead of the ('you', 'could')
-
-
-
-
-
-
-
-    # We need an if statement for if the "new key" is not a key in the dictionary, then we stop. 
-    # We need a condition for the while loop such that it will continue if the key exists in the dictionary.
-    
-    print text
-
-    return text
+    return whole_string
 
 
 input_path = "green-eggs.txt"
